@@ -39,7 +39,7 @@ locert uninstall
 ```
 On Windows run inside elevated command prompt or Powershell
 ```
-lodns.exe uninstall
+locert.exe uninstall
 ```
 and remove the binary.
 
