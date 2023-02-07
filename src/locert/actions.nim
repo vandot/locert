@@ -1,4 +1,8 @@
-import std/[os, osproc, strutils]
+import std/[os, osproc]
+when defined macosx:
+    import std/strutils
+when defined windows:
+    import std/strutils
 # Internal imports
 import cert
 
@@ -29,18 +33,17 @@ proc installCA*(domain: string) =
     genCRT(domain)
     moveCA(ca)
     when defined linux:
+        var addTrustedCert = "sudo update-ca-certificates"
         if dirExists("/etc/pki/ca-trust/source/anchors"):
             copyFile(joinPath(ca, "locertCA.pem"), "/etc/pki/ca-trust/source/anchors/locertCA.pem")
-            var addTrustedCert = "sudo update-ca-trust extract"
+            addTrustedCert = "sudo update-ca-trust extract"
         elif dirExists("/usr/local/share/ca-certificates"):
             copyFile(joinPath(ca, "locertCA.pem"), "/usr/local/share/ca-certificates/locertCA.crt")
-            var addTrustedCert = "sudo update-ca-certificates"
-        elif pathExists("/etc/ca-certificates/trust-source/anchors"):
+        elif dirExists("/etc/ca-certificates/trust-source/anchors"):
             copyFile(joinPath(ca, "locertCA.pem"), "/etc/ca-certificates/trust-source/anchors/locertCA.crt")
-            var addTrustedCert = "sudo trust extract-compat"
-        elif pathExists("/usr/share/pki/trust/anchors"):
+            addTrustedCert = "sudo trust extract-compat"
+        elif dirExists("/usr/share/pki/trust/anchors"):
             copyFile(joinPath(ca, "locertCA.pem"), "/usr/share/pki/trust/anchors/locertCA.pem")
-            var addTrustedCert = "sudo update-ca-certificates"
     when defined macosx:
         var addTrustedCert = "sudo security add-trusted-cert -d -k /Library/Keychains/System.keychain \"$#\"" % [joinPath(ca, "locertCA.pem")]
     when defined windows:
@@ -55,18 +58,17 @@ proc uninstallCA*() =
     var ca = getCAPath()
     ca = joinPath(ca, "locertCA.pem")
     when defined linux:
+        var removeTrustedCert = "sudo update-ca-certificates"
         if dirExists("/etc/pki/ca-trust/source/anchors"):
             removeFile("/etc/pki/ca-trust/source/anchors/locertCA.pem")
-            var addTrustedCert = "sudo update-ca-trust extract"
+            removeTrustedCert = "sudo update-ca-trust extract"
         elif dirExists("/usr/local/share/ca-certificates"):
             removeFile("/usr/local/share/ca-certificates/locertCA.crt")
-            var addTrustedCert = "sudo update-ca-certificates"
-        elif pathExists("/etc/ca-certificates/trust-source/anchors"):
+        elif dirExists("/etc/ca-certificates/trust-source/anchors"):
             removeFile("/etc/ca-certificates/trust-source/anchors/locertCA.crt")
-            var addTrustedCert = "sudo trust extract-compat"
-        elif pathExists("/usr/share/pki/trust/anchors"):
+            removeTrustedCert = "sudo trust extract-compat"
+        elif dirExists("/usr/share/pki/trust/anchors"):
             removeFile("/usr/share/pki/trust/anchors/locertCA.pem")
-            var addTrustedCert = "sudo update-ca-certificates"
     when defined macosx:
         var removeTrustedCert = "sudo security delete-certificate -t -c locert"
     when defined windows:
