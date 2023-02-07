@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.1.0"
+version       = "0.1.1"
 author        = "vandot"
 description   = "Simple cert generator for local development"
 license       = "BSD 3-Clause"
