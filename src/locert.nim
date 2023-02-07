@@ -47,11 +47,8 @@ proc main() =
       discard
 
   if install:
-    echo "Install"
     installCA(domain)
-    quit()
   if uninstall:
-    echo "Uninstall"
     uninstallCA()
   else:
     writeHelp()
