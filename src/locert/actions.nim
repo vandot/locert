@@ -32,13 +32,13 @@ proc installCA*(domain: string) =
         if dirExists("/etc/pki/ca-trust/source/anchors"):
             copyFile(joinPath(ca, "locertCA.pem"), "/etc/pki/ca-trust/source/anchors/locertCA.pem")
             var addTrustedCert = "sudo update-ca-trust extract"
-        elseif dirExists("/usr/local/share/ca-certificates"):
+        elif dirExists("/usr/local/share/ca-certificates"):
             copyFile(joinPath(ca, "locertCA.pem"), "/usr/local/share/ca-certificates/locertCA.crt")
             var addTrustedCert = "sudo update-ca-certificates"
-        elseif pathExists("/etc/ca-certificates/trust-source/anchors"):
+        elif pathExists("/etc/ca-certificates/trust-source/anchors"):
             copyFile(joinPath(ca, "locertCA.pem"), "/etc/ca-certificates/trust-source/anchors/locertCA.crt")
             var addTrustedCert = "sudo trust extract-compat"
-        elseif pathExists("/usr/share/pki/trust/anchors"):
+        elif pathExists("/usr/share/pki/trust/anchors"):
             copyFile(joinPath(ca, "locertCA.pem"), "/usr/share/pki/trust/anchors/locertCA.pem")
             var addTrustedCert = "sudo update-ca-certificates"
     when defined macosx:
@@ -58,13 +58,13 @@ proc uninstallCA*() =
         if dirExists("/etc/pki/ca-trust/source/anchors"):
             removeFile("/etc/pki/ca-trust/source/anchors/locertCA.pem")
             var addTrustedCert = "sudo update-ca-trust extract"
-        elseif dirExists("/usr/local/share/ca-certificates"):
+        elif dirExists("/usr/local/share/ca-certificates"):
             removeFile("/usr/local/share/ca-certificates/locertCA.crt")
             var addTrustedCert = "sudo update-ca-certificates"
-        elseif pathExists("/etc/ca-certificates/trust-source/anchors"):
+        elif pathExists("/etc/ca-certificates/trust-source/anchors"):
             removeFile("/etc/ca-certificates/trust-source/anchors/locertCA.crt")
             var addTrustedCert = "sudo trust extract-compat"
-        elseif pathExists("/usr/share/pki/trust/anchors"):
+        elif pathExists("/usr/share/pki/trust/anchors"):
             removeFile("/usr/share/pki/trust/anchors/locertCA.pem")
             var addTrustedCert = "sudo update-ca-certificates"
     when defined macosx:
