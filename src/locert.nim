@@ -1,6 +1,6 @@
 import std/[os, parseopt]
 # Internal imports
-import ./locert/actions
+import ./locertpkg/actions
 
 const domain = "dev.lo"
 

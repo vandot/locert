@@ -9,12 +9,18 @@ bin           = @["locert"]
 
 binDir = "build"
 
+installExt = @["nim"]
+
 skipDirs = @[
   ".github",
 ]
 
 # Dependencies
 requires "nim >= 1.6.6"
+
+when defined(nimdistros):
+  import distros
+  foreignDep "openssl"
 
 # Tasks
 proc updateNimbleVersion(ver: string) =
