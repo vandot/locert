@@ -11,7 +11,7 @@ proc writeVersion() =
 proc writeHelp() =
   writeVersion()
   echo """
-  Generate SSL cert with lo TLD for
+  Generate SSL cert with dev.lo TLD for
   local development.
 
   install       : generate and install cert to system
@@ -22,36 +22,28 @@ proc writeHelp() =
   quit()
 
 proc main() =
-  var install, uninstall = false
-
   for kind, key, value in getOpt():
     case kind
     of cmdArgument:
       case key
       of "install":
-        install = true
+        installCA(domain, false)
       of "uninstall":
-        uninstall = true
+        uninstallCA(false)
       else:
         echo "unknown argument: ", key
+        writeHelp()
     of cmdLongOption, cmdShortOption:
       case key
       of "v", "version":
         writeVersion()
-        quit()
       of "h", "help":
         writeHelp()
       else:
         echo "unknown option: ", key
+        writeHelp()
     of cmdEnd:
       discard
-
-  if install:
-    installCA(domain)
-  if uninstall:
-    uninstallCA()
-  else:
-    writeHelp()
 
 when isMainModule:
   main()
