@@ -14,7 +14,7 @@ In combination with [lodns](https://github.com/vandot/lodns) provides easy setup
 ## Installation
 Download correct binary from the latest [release](https://github.com/vandot/locert/releases) and place it somewhere in the PATH.
 
-Or `nimble install https://github.com/vandot/locert`
+Or `nimble install locert`
 
 ## Configuration
 locert comes preconfigured for all supported platforms.
