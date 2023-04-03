@@ -17,7 +17,7 @@ proc genCA*() =
   var result = execCmdEx(genCAcmd)
   if result.exitCode != 0:
     echo genCAcmd & " failed with code " & $result.exitCode & " and message " & result.output
-    quit()
+    quit(1)
 
 proc genCSR*(domain: string) =
   var genCSRcmd = "$# req -sha256 -nodes -newkey rsa:2048 -keyout locert.key -out $# -subj \"/C=LO/ST=Dev/L=Local/O=Dev/OU=Local/CN=$#\"" %
@@ -25,7 +25,7 @@ proc genCSR*(domain: string) =
   var result = execCmdEx(genCSRcmd)
   if result.exitCode != 0:
     echo genCSRcmd & " failed with code " & $result.exitCode & " and message " & result.output
-    quit()
+    quit(1)
 
 proc genCRT*(domain: string) =
   genExt(domain)
@@ -37,4 +37,4 @@ proc genCRT*(domain: string) =
   if result.exitCode != 0:
     echo genCRTcmd & " failed with code: " & $result.exitCode &
         " and message: " & result.output
-    quit()
+    quit(1)

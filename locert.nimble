@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.1.5"
+version       = "0.1.6"
 author        = "vandot"
 description   = "Simple cert generator for local development"
 license       = "BSD 3-Clause"
@@ -17,6 +17,7 @@ skipDirs = @[
 
 # Dependencies
 requires "nim >= 1.6.6"
+requires "https://github.com/vandot/nim-sudo#head"
 
 when defined(nimdistros):
   import distros
